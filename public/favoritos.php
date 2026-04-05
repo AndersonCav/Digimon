@@ -23,7 +23,7 @@ include __DIR__ . '/../templates/header.php';
     <div class="d-flex flex-wrap justify-content-between align-items-center gap-2">
         <div>
             <p class="hero-eyebrow mb-1">Coleção pessoal</p>
-            <h2 class="h4 mb-0">Meus favoritos</h2>
+            <h2 class="h4 mb-0"><i class="bi bi-stars me-1" aria-hidden="true"></i>Meus favoritos</h2>
         </div>
         <a href="index.php" class="btn btn-outline-primary btn-sm">Voltar para busca</a>
     </div>
@@ -51,11 +51,11 @@ include __DIR__ . '/../templates/header.php';
 
                         <div class="d-flex gap-2 mb-2 flex-wrap">
                             <?php if (!empty($favorite['digimon_level'])): ?>
-                                <span class="meta-chip">Nível: <?php echo h((string) $favorite['digimon_level']); ?></span>
+                                <span class="meta-chip"><i class="bi bi-layers me-1" aria-hidden="true"></i>Nível: <?php echo h((string) $favorite['digimon_level']); ?></span>
                             <?php endif; ?>
 
                             <?php if (!empty($favorite['digimon_attribute'])): ?>
-                                <span class="meta-chip">Tipo: <?php echo h((string) $favorite['digimon_attribute']); ?></span>
+                                <span class="meta-chip"><i class="bi bi-shield-check me-1" aria-hidden="true"></i>Tipo: <?php echo h((string) $favorite['digimon_attribute']); ?></span>
                             <?php endif; ?>
                         </div>
 
@@ -69,16 +69,20 @@ include __DIR__ . '/../templates/header.php';
                                     href="digimon.php?ref=<?php echo h(urlencode((string) $favorite['digimon_href'])); ?>"
                                     class="btn btn-outline-primary btn-sm"
                                 >
+                                    <i class="bi bi-info-circle me-1" aria-hidden="true"></i>
                                     Ver detalhes
                                 </a>
                             <?php endif; ?>
 
-                            <form method="POST" action="favorite_action.php" class="ms-auto">
+                            <form method="POST" action="favorite_action.php" class="ms-auto favorite-action-form" data-favorite-action-form>
                                 <?php echo csrfField(); ?>
                                 <input type="hidden" name="action" value="remove">
                                 <input type="hidden" name="digimon_name" value="<?php echo h((string) $favorite['digimon_name']); ?>">
                                 <input type="hidden" name="return_url" value="favoritos.php">
-                                <button type="submit" class="btn btn-outline-danger btn-sm">Remover</button>
+                                <button type="submit" class="btn btn-outline-danger btn-sm">
+                                    <i class="bi bi-trash3 me-1" aria-hidden="true"></i>
+                                    <span class="btn-label">Remover</span>
+                                </button>
                             </form>
                         </div>
                     </div>

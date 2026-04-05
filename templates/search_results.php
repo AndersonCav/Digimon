@@ -4,7 +4,10 @@ declare(strict_types=1);
 ?>
 
 <section>
-    <h3 class="h5 mb-3">Resultados da busca</h3>
+    <h3 class="h5 mb-3">
+        <i class="bi bi-grid-3x3-gap-fill me-2" aria-hidden="true"></i>
+        Resultados da busca
+    </h3>
 
     <?php if ($searchError !== null): ?>
         <div class="alert alert-danger" role="alert"><?php echo h((string) $searchError); ?></div>
@@ -34,11 +37,11 @@ declare(strict_types=1);
 
                             <div class="d-flex gap-2 mb-3 flex-wrap">
                                 <?php if ($level !== ''): ?>
-                                    <span class="meta-chip">Nível: <?php echo h($level); ?></span>
+                                    <span class="meta-chip"><i class="bi bi-layers me-1" aria-hidden="true"></i>Nível: <?php echo h($level); ?></span>
                                 <?php endif; ?>
 
                                 <?php if ($attribute !== ''): ?>
-                                    <span class="meta-chip">Tipo: <?php echo h($attribute); ?></span>
+                                    <span class="meta-chip"><i class="bi bi-shield-check me-1" aria-hidden="true"></i>Tipo: <?php echo h($attribute); ?></span>
                                 <?php endif; ?>
                             </div>
 
@@ -48,12 +51,13 @@ declare(strict_types=1);
                                         href="digimon.php?ref=<?php echo h(urlencode($href)); ?>"
                                         class="btn btn-outline-primary btn-sm"
                                     >
+                                        <i class="bi bi-info-circle me-1" aria-hidden="true"></i>
                                         Ver detalhes
                                     </a>
                                 <?php endif; ?>
 
                                 <?php if (\Auth::check()): ?>
-                                    <form method="POST" action="favorite_action.php" class="ms-auto">
+                                    <form method="POST" action="favorite_action.php" class="ms-auto favorite-action-form" data-favorite-action-form>
                                         <?php echo csrfField(); ?>
                                         <input type="hidden" name="action" value="<?php echo $isFavorite ? 'remove' : 'add'; ?>">
                                         <input type="hidden" name="digimon_name" value="<?php echo h($name); ?>">
@@ -63,7 +67,8 @@ declare(strict_types=1);
                                         <input type="hidden" name="digimon_href" value="<?php echo h($href); ?>">
                                         <input type="hidden" name="return_url" value="index.php?<?php echo h(http_build_query(array_merge($queryParams, ['page' => $currentPage]))); ?>">
                                         <button type="submit" class="btn <?php echo $isFavorite ? 'btn-outline-danger' : 'btn-warning'; ?> btn-sm">
-                                            <?php echo $isFavorite ? 'Remover favorito' : 'Favoritar'; ?>
+                                            <i class="bi <?php echo $isFavorite ? 'bi-heartbreak' : 'bi-heart-fill'; ?> me-1" aria-hidden="true"></i>
+                                            <span class="btn-label"><?php echo $isFavorite ? 'Remover favorito' : 'Favoritar'; ?></span>
                                         </button>
                                     </form>
                                 <?php endif; ?>

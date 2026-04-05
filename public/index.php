@@ -18,7 +18,7 @@ include __DIR__ . '/../templates/header.php';
     <div class="col-lg-10">
         <div class="card panel-card reveal-up">
             <div class="card-body p-4">
-                <form action="index.php" method="GET" class="row g-3">
+                <form id="search-form" action="index.php" method="GET" class="row g-3" data-loading-form data-loading-text="Pesquisando...">
                     <div class="col-md-4">
                         <label for="nomeDigimon" class="form-label">Nome</label>
                         <input
@@ -56,7 +56,10 @@ include __DIR__ . '/../templates/header.php';
                     </div>
 
                     <div class="col-12 d-flex gap-2 flex-wrap">
-                        <button type="submit" class="btn btn-primary px-4">Pesquisar</button>
+                        <button type="submit" class="btn btn-primary px-4">
+                            <i class="bi bi-search me-1" aria-hidden="true"></i>
+                            <span class="btn-label">Pesquisar</span>
+                        </button>
                         <a href="index.php" class="btn btn-outline-secondary px-4">Limpar filtros</a>
                     </div>
                 </form>
@@ -65,6 +68,28 @@ include __DIR__ . '/../templates/header.php';
     </div>
 </section>
 
-<?php include __DIR__ . '/../templates/search_results.php'; ?>
+<section id="search-loading-state" class="search-loading-state d-none" aria-hidden="true">
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+        <?php for ($i = 0; $i < 6; $i++): ?>
+            <article class="col">
+                <div class="card skeleton-card h-100">
+                    <div class="skeleton skeleton-image"></div>
+                    <div class="card-body">
+                        <div class="skeleton skeleton-line w-75 mb-2"></div>
+                        <div class="skeleton skeleton-line w-50 mb-3"></div>
+                        <div class="d-flex gap-2">
+                            <div class="skeleton skeleton-pill w-50"></div>
+                            <div class="skeleton skeleton-pill w-25"></div>
+                        </div>
+                    </div>
+                </div>
+            </article>
+        <?php endfor; ?>
+    </div>
+</section>
+
+<div id="search-results-section">
+    <?php include __DIR__ . '/../templates/search_results.php'; ?>
+</div>
 
 <?php include __DIR__ . '/../templates/footer.php'; ?>

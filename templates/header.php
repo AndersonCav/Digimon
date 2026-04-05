@@ -9,6 +9,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Rajdhani:wght@600;700&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -35,11 +36,24 @@
 
 <main class="container pb-4">
     <?php $flashError = flashGet('error'); ?>
-    <?php if ($flashError !== null): ?>
-        <div class="alert alert-danger" role="alert"><?php echo h($flashError); ?></div>
-    <?php endif; ?>
-
     <?php $flashSuccess = flashGet('success'); ?>
-    <?php if ($flashSuccess !== null): ?>
-        <div class="alert alert-success" role="alert"><?php echo h($flashSuccess); ?></div>
-    <?php endif; ?>
+
+    <div id="flash-toast-sources" class="d-none" aria-hidden="true">
+        <?php if ($flashError !== null): ?>
+            <div class="flash-toast-source" data-type="error" data-message="<?php echo h($flashError); ?>"></div>
+        <?php endif; ?>
+
+        <?php if ($flashSuccess !== null): ?>
+            <div class="flash-toast-source" data-type="success" data-message="<?php echo h($flashSuccess); ?>"></div>
+        <?php endif; ?>
+    </div>
+
+    <noscript>
+        <?php if ($flashError !== null): ?>
+            <div class="alert alert-danger" role="alert"><?php echo h($flashError); ?></div>
+        <?php endif; ?>
+
+        <?php if ($flashSuccess !== null): ?>
+            <div class="alert alert-success" role="alert"><?php echo h($flashSuccess); ?></div>
+        <?php endif; ?>
+    </noscript>
