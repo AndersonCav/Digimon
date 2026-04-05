@@ -11,8 +11,9 @@ include __DIR__ . '/../templates/header.php';
 
 <section class="row justify-content-center">
     <div class="col-lg-8">
-        <div class="card border-0 shadow-sm">
+        <div class="card profile-card reveal-up">
             <div class="card-body p-4">
+                <p class="hero-eyebrow mb-1">Painel do treinador</p>
                 <h2 class="h4">Olá, <?php echo h((string) \Auth::username()); ?>!</h2>
                 <p class="text-muted">Sua sessão está ativa. A partir daqui você pode gerenciar seus favoritos e continuar suas buscas.</p>
 

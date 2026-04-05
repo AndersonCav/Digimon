@@ -8,14 +8,15 @@ require_once __DIR__ . '/../src/search.php';
 include __DIR__ . '/../templates/header.php';
 ?>
 
-<section class="text-center mb-4">
-    <h2 class="mb-2">Encontre seu Digimon</h2>
-    <p class="text-muted mb-0">Busque por nome, nível e tipo. Você pode combinar os filtros.</p>
+<section class="hero-panel mb-4 reveal-up">
+    <p class="hero-eyebrow">Digivice Search Console</p>
+    <h2 class="hero-title">Encontre seu Digimon favorito em segundos</h2>
+    <p class="hero-subtitle">Combine nome, nível e tipo para criar buscas mais precisas e monte sua coleção personalizada.</p>
 </section>
 
 <section class="row justify-content-center mb-4">
     <div class="col-lg-10">
-        <div class="card shadow-sm border-0">
+        <div class="card panel-card reveal-up">
             <div class="card-body p-4">
                 <form action="index.php" method="GET" class="row g-3">
                     <div class="col-md-4">
@@ -54,9 +55,9 @@ include __DIR__ . '/../templates/header.php';
                         </select>
                     </div>
 
-                    <div class="col-12 d-flex gap-2">
-                        <button type="submit" class="btn btn-primary">Pesquisar</button>
-                        <a href="index.php" class="btn btn-outline-secondary">Limpar</a>
+                    <div class="col-12 d-flex gap-2 flex-wrap">
+                        <button type="submit" class="btn btn-primary px-4">Pesquisar</button>
+                        <a href="index.php" class="btn btn-outline-secondary px-4">Limpar filtros</a>
                     </div>
                 </form>
             </div>

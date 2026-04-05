@@ -3,6 +3,7 @@
 
 # Runtime/cache
 storage/cache/*.json
+storage/logs/*.log
 
 # Editor/OS
 .vscode/

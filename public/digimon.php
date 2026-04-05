@@ -21,7 +21,10 @@ include __DIR__ . '/../templates/header.php';
 ?>
 
 <section class="mb-4 d-flex justify-content-between align-items-center flex-wrap gap-2">
-    <h2 class="h4 mb-0">Detalhes do Digimon</h2>
+    <div>
+        <p class="hero-eyebrow mb-1">Ficha técnica</p>
+        <h2 class="h4 mb-0">Detalhes do Digimon</h2>
+    </div>
     <a href="index.php" class="btn btn-outline-primary btn-sm">Voltar para busca</a>
 </section>
 
@@ -31,96 +34,23 @@ include __DIR__ . '/../templates/header.php';
     <div class="alert alert-warning" role="alert">Nenhum detalhe disponível para este Digimon.</div>
 <?php else: ?>
     <?php
-    $name = (string) ($digimon['name'] ?? 'Desconhecido');
-    $image = (string) ($digimon['images'][0]['href'] ?? ($digimon['image'] ?? ''));
+    $mapped = \DigimonMapper::fromDetailsPayload($digimon);
+    $name = $mapped['name'];
+    $image = $mapped['image'];
+    $levels = $mapped['levels'];
+    $attributes = $mapped['attributes'];
+    $types = $mapped['types'];
 
-    $levels = [];
-    if (isset($digimon['levels']) && is_array($digimon['levels'])) {
-        foreach ($digimon['levels'] as $levelItem) {
-            $label = trim((string) ($levelItem['level'] ?? ''));
-            if ($label !== '') {
-                $levels[] = $label;
-            }
-        }
-    }
-
-    $attributes = [];
-    if (isset($digimon['attributes']) && is_array($digimon['attributes'])) {
-        foreach ($digimon['attributes'] as $attributeItem) {
-            $label = trim((string) ($attributeItem['attribute'] ?? ''));
-            if ($label !== '') {
-                $attributes[] = $label;
-            }
-        }
-    }
-
-    $types = [];
-    if (isset($digimon['types']) && is_array($digimon['types'])) {
-        foreach ($digimon['types'] as $typeItem) {
-            $label = trim((string) ($typeItem['type'] ?? ''));
-            if ($label !== '') {
-                $types[] = $label;
-            }
-        }
-    }
-
-    $descriptions = [];
-    if (isset($digimon['descriptions']) && is_array($digimon['descriptions'])) {
-        foreach ($digimon['descriptions'] as $descriptionItem) {
-            $text = trim((string) ($descriptionItem['description'] ?? ''));
-            $language = trim((string) ($descriptionItem['language'] ?? ''));
-            if ($text !== '') {
-                $descriptions[] = [
-                    'text' => $text,
-                    'language' => $language,
-                ];
-            }
-        }
-    }
-
-    $selectedDescription = null;
-    $isPortugueseDescription = false;
-
-    if (count($descriptions) > 0) {
-        $normalizeLanguage = static function (string $language): string {
-            $normalized = strtolower(trim($language));
-            $normalized = str_replace(['_', ' '], '-', $normalized);
-
-            return $normalized;
-        };
-
-        foreach ($descriptions as $description) {
-            $language = $normalizeLanguage((string) $description['language']);
-
-            if ($language === 'pt' || $language === 'pt-br' || $language === 'portuguese' || $language === 'portugues') {
-                $selectedDescription = $description;
-                $isPortugueseDescription = true;
-                break;
-            }
-        }
-
-        if ($selectedDescription === null) {
-            foreach ($descriptions as $description) {
-                $language = $normalizeLanguage((string) $description['language']);
-
-                if ($language === 'en' || $language === 'en-us' || $language === 'english') {
-                    $selectedDescription = $description;
-                    break;
-                }
-            }
-        }
-
-        if ($selectedDescription === null) {
-            $selectedDescription = $descriptions[0];
-        }
-    }
+    $descriptionSelection = \DigimonMapper::selectPreferredDescription($mapped['descriptions']);
+    $selectedDescription = $descriptionSelection['description'];
+    $isPortugueseDescription = $descriptionSelection['is_portuguese'];
     ?>
 
-    <article class="card border-0 shadow-sm">
+    <article class="card detail-card reveal-up">
         <div class="row g-0">
             <div class="col-lg-4">
                 <?php if ($image !== ''): ?>
-                    <img src="<?php echo h($image); ?>" alt="Imagem de <?php echo h($name); ?>" class="img-fluid rounded-start w-100 h-100" style="object-fit: cover; max-height: 420px;">
+                    <img src="<?php echo h($image); ?>" alt="Imagem de <?php echo h($name); ?>" class="img-fluid rounded-start w-100 h-100 digimon-detail-image" style="max-height: 420px;">
                 <?php else: ?>
                     <div class="h-100 d-flex align-items-center justify-content-center bg-light text-muted rounded-start" style="min-height: 280px;">
                         Imagem indisponível
@@ -134,21 +64,21 @@ include __DIR__ . '/../templates/header.php';
 
                     <div class="row g-3 mb-4">
                         <div class="col-md-4">
-                            <div class="p-3 bg-light rounded">
+                            <div class="p-3 meta-grid-card">
                                 <strong class="d-block mb-1">Níveis</strong>
                                 <span class="text-muted"><?php echo h(count($levels) > 0 ? implode(', ', $levels) : 'Não informado'); ?></span>
                             </div>
                         </div>
 
                         <div class="col-md-4">
-                            <div class="p-3 bg-light rounded">
+                            <div class="p-3 meta-grid-card">
                                 <strong class="d-block mb-1">Atributos</strong>
                                 <span class="text-muted"><?php echo h(count($attributes) > 0 ? implode(', ', $attributes) : 'Não informado'); ?></span>
                             </div>
                         </div>
 
                         <div class="col-md-4">
-                            <div class="p-3 bg-light rounded">
+                            <div class="p-3 meta-grid-card">
                                 <strong class="d-block mb-1">Tipos</strong>
                                 <span class="text-muted"><?php echo h(count($types) > 0 ? implode(', ', $types) : 'Não informado'); ?></span>
                             </div>

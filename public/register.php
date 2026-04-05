@@ -53,9 +53,10 @@ include __DIR__ . '/../templates/header.php';
 
 <section class="row justify-content-center">
     <div class="col-md-7 col-lg-6">
-        <div class="card shadow-sm border-0">
+        <div class="card auth-card reveal-up">
             <div class="card-body p-4">
-                <h2 class="h4 mb-3">Criar conta</h2>
+                <p class="hero-eyebrow mb-1">Cadastro</p>
+                <h2 class="h4 mb-3">Criar nova conta</h2>
 
                 <?php if ($error !== null): ?>
                     <div class="alert alert-danger" role="alert"><?php echo h($error); ?></div>

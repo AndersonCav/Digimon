@@ -2,7 +2,7 @@
 
     <footer class="footer-shell py-3 mt-auto">
         <div class="container text-center text-light">
-            <p class="mb-0">&copy; 2026 Digimon Search. Projeto de portfólio com PHP + MySQL + Bootstrap.</p>
+            <p class="mb-0">&copy; 2026 Digimon Search. Catálogo visual de Digimons com experiência curada em PHP + MySQL + Bootstrap.</p>
         </div>
     </footer>
 

@@ -189,11 +189,19 @@ final class DigimonApi
         }
 
         if ($raw === false || $httpCode >= 400 || $error !== '') {
+            \Logger::error('Falha ao consultar API de Digimon.', [
+                'url' => $url,
+                'http_code' => $httpCode,
+                'curl_error' => $error,
+            ]);
             return ['data' => null, 'error' => 'request_failed'];
         }
 
         $decoded = json_decode($raw, true);
         if (!is_array($decoded)) {
+            \Logger::error('Resposta JSON inválida da API de Digimon.', [
+                'url' => $url,
+            ]);
             return ['data' => null, 'error' => 'invalid_json'];
         }
 
@@ -250,7 +258,14 @@ final class DigimonApi
     private function writeCache(string $url, array $payload): void
     {
         $filePath = $this->cacheFilePath($url);
-        file_put_contents($filePath, json_encode($payload, JSON_PRETTY_PRINT));
+        $encoded = json_encode($payload, JSON_PRETTY_PRINT);
+
+        if (!is_string($encoded) || file_put_contents($filePath, $encoded) === false) {
+            \Logger::error('Falha ao escrever cache da API.', [
+                'url' => $url,
+                'cache_file' => $filePath,
+            ]);
+        }
     }
 
     private function cleanupCache(): void
@@ -267,7 +282,11 @@ final class DigimonApi
             }
 
             if ((time() - filemtime($file)) > $maxAge) {
-                @unlink($file);
+                if (!@unlink($file)) {
+                    \Logger::error('Falha ao limpar arquivo de cache expirado.', [
+                        'cache_file' => $file,
+                    ]);
+                }
             }
         }
     }

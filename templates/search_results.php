@@ -4,34 +4,27 @@ declare(strict_types=1);
 ?>
 
 <section>
-    <h3 class="h5 mb-3">Resultados</h3>
+    <h3 class="h5 mb-3">Resultados da busca</h3>
 
     <?php if ($searchError !== null): ?>
         <div class="alert alert-danger" role="alert"><?php echo h((string) $searchError); ?></div>
     <?php elseif (count($digimons) === 0): ?>
         <div class="alert alert-warning" role="alert">Nenhum Digimon encontrado para os filtros informados.</div>
     <?php else: ?>
-        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4 results-grid">
             <?php foreach ($digimons as $digimon): ?>
                 <?php
-                $name = (string) ($digimon['name'] ?? 'Desconhecido');
-                $image = (string) ($digimon['image'] ?? '');
-                $href = (string) ($digimon['href'] ?? '');
-
-                $level = '';
-                if (isset($digimon['levels'][0]['level'])) {
-                    $level = (string) $digimon['levels'][0]['level'];
-                }
-
-                $attribute = '';
-                if (isset($digimon['attributes'][0]['attribute'])) {
-                    $attribute = (string) $digimon['attributes'][0]['attribute'];
-                }
+                $mapped = \DigimonMapper::fromListItem($digimon);
+                $name = $mapped['name'];
+                $image = $mapped['image'];
+                $href = $mapped['href'];
+                $level = $mapped['level'];
+                $attribute = $mapped['attribute'];
 
                 $isFavorite = isset($favoriteMap[$name]);
                  ?>
-                <article class="col">
-                    <div class="card h-100 border-0 shadow-sm">
+                <article class="col reveal-up">
+                    <div class="card h-100 result-card">
                         <?php if ($image !== ''): ?>
                             <img src="<?php echo h($image); ?>" class="card-img-top" alt="Imagem de <?php echo h($name); ?>">
                         <?php endif; ?>
@@ -39,13 +32,15 @@ declare(strict_types=1);
                         <div class="card-body d-flex flex-column">
                             <h4 class="h5 card-title mb-2"><?php echo h($name); ?></h4>
 
-                            <?php if ($level !== ''): ?>
-                                <p class="mb-1 text-muted">Nível: <?php echo h($level); ?></p>
-                            <?php endif; ?>
+                            <div class="d-flex gap-2 mb-3 flex-wrap">
+                                <?php if ($level !== ''): ?>
+                                    <span class="meta-chip">Nível: <?php echo h($level); ?></span>
+                                <?php endif; ?>
 
-                            <?php if ($attribute !== ''): ?>
-                                <p class="mb-3 text-muted">Tipo: <?php echo h($attribute); ?></p>
-                            <?php endif; ?>
+                                <?php if ($attribute !== ''): ?>
+                                    <span class="meta-chip">Tipo: <?php echo h($attribute); ?></span>
+                                <?php endif; ?>
+                            </div>
 
                             <div class="d-flex gap-2 mt-auto">
                                 <?php if ($href !== ''): ?>

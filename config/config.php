@@ -8,6 +8,8 @@ if (!defined('BASE_PATH')) {
     define('BASE_PATH', dirname(__DIR__));
 }
 
+require_once BASE_PATH . '/src/Logger.php';
+
 $loadedEnv = loadEnvFile(BASE_PATH . '/.env');
 
 if (!function_exists('envValue')) {
@@ -39,6 +41,14 @@ $apiConfig = [
     'cache_dir' => BASE_PATH . '/storage/cache',
 ];
 
+if (!defined('APP_LOG_ENABLED')) {
+    define('APP_LOG_ENABLED', envValue('LOG_ENABLED', '1') === '1');
+}
+
+if (!defined('APP_LOG_FILE')) {
+    define('APP_LOG_FILE', BASE_PATH . '/storage/logs/app.log');
+}
+
 $conn = null;
 $dbError = null;
 
@@ -55,4 +65,10 @@ try {
     $conn->set_charset($dbConfig['charset']);
 } catch (mysqli_sql_exception $exception) {
     $dbError = 'Não foi possível conectar ao banco de dados no momento.';
+    \Logger::error('Falha ao conectar no banco de dados.', [
+        'exception' => $exception->getMessage(),
+        'host' => $dbConfig['host'],
+        'database' => $dbConfig['name'],
+        'port' => $dbConfig['port'],
+    ]);
 }

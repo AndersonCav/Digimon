@@ -116,15 +116,20 @@ As configurações ficam no arquivo .env:
 - DIGIMON_API_URL
 - CACHE_ENABLED (1 ou 0)
 - CACHE_TTL_SECONDS
+- LOG_ENABLED (1 ou 0)
+- SESSION_SECURE_COOKIE (1 em HTTPS, 0 em HTTP local)
+- SESSION_SAMESITE (Lax, Strict ou None)
 
 ## Segurança aplicada
 
 - Uso de prepared statements no MySQL.
 - password_hash e password_verify para senha.
 - Regeneração de sessão no login.
+- Endurecimento de cookie de sessão (HttpOnly, SameSite, strict mode).
 - Logout com limpeza completa de sessão/cookie.
 - Escaping de saída HTML com helper dedicado.
 - Token CSRF em formulários sensíveis (login, cadastro e favoritos).
+- Logging interno de erros em storage/logs/app.log.
 
 ## Observações de portfólio
 

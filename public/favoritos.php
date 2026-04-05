@@ -21,7 +21,10 @@ include __DIR__ . '/../templates/header.php';
 
 <section class="mb-4">
     <div class="d-flex flex-wrap justify-content-between align-items-center gap-2">
-        <h2 class="h4 mb-0">Meus favoritos</h2>
+        <div>
+            <p class="hero-eyebrow mb-1">Coleção pessoal</p>
+            <h2 class="h4 mb-0">Meus favoritos</h2>
+        </div>
         <a href="index.php" class="btn btn-outline-primary btn-sm">Voltar para busca</a>
     </div>
 </section>
@@ -33,8 +36,8 @@ include __DIR__ . '/../templates/header.php';
 <?php else: ?>
     <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
         <?php foreach ($favorites as $favorite): ?>
-            <article class="col">
-                <div class="card h-100 border-0 shadow-sm">
+            <article class="col reveal-up">
+                <div class="card h-100 favorite-card">
                     <?php if (!empty($favorite['digimon_image'])): ?>
                         <img
                             src="<?php echo h((string) $favorite['digimon_image']); ?>"
@@ -46,13 +49,15 @@ include __DIR__ . '/../templates/header.php';
                     <div class="card-body d-flex flex-column">
                         <h3 class="h5 card-title"><?php echo h((string) $favorite['digimon_name']); ?></h3>
 
-                        <?php if (!empty($favorite['digimon_level'])): ?>
-                            <p class="mb-1 text-muted">Nível: <?php echo h((string) $favorite['digimon_level']); ?></p>
-                        <?php endif; ?>
+                        <div class="d-flex gap-2 mb-2 flex-wrap">
+                            <?php if (!empty($favorite['digimon_level'])): ?>
+                                <span class="meta-chip">Nível: <?php echo h((string) $favorite['digimon_level']); ?></span>
+                            <?php endif; ?>
 
-                        <?php if (!empty($favorite['digimon_attribute'])): ?>
-                            <p class="mb-2 text-muted">Tipo: <?php echo h((string) $favorite['digimon_attribute']); ?></p>
-                        <?php endif; ?>
+                            <?php if (!empty($favorite['digimon_attribute'])): ?>
+                                <span class="meta-chip">Tipo: <?php echo h((string) $favorite['digimon_attribute']); ?></span>
+                            <?php endif; ?>
+                        </div>
 
                         <p class="small text-secondary mt-auto mb-3">
                             Favoritado em <?php echo h((string) $favorite['data_adicionado']); ?>
