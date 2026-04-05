@@ -1,121 +1,131 @@
-# Digimon Search Application
+# Digimon Search
 
-<p align="center">
-  <img src="https://img.shields.io/badge/PHP-7.4%2B-blue" alt="PHP Version">
-  <img src="https://img.shields.io/badge/Bootstrap-5.3.3-blueviolet" alt="Bootstrap Version">
-  <img src="https://img.shields.io/badge/MySQL-Compatible-orange" alt="MySQL Compatibility">
-  <img src="https://img.shields.io/badge/Status-Em%20Desenvolvimento-green" alt="Status">
-</p>
+Aplicação web em PHP para pesquisar Digimons via API externa, com autenticação de usuários e favoritos persistidos em MySQL.
 
-## 🌟 O que é o Digimon Search Application?
+## Stack
 
-O **Digimon Search Application** é um projeto web que permite pesquisar Digimons por nome, nível e tipo usando a **API de Digimon**. Além disso, oferece funcionalidades como autenticação de usuários e a capacidade de favoritar Digimons, proporcionando uma experiência personalizada e interativa. O projeto utiliza **PHP**, **MySQL** e **Bootstrap 5.3.3** para criar uma interface de usuário moderna e responsiva.
+- PHP (sem framework)
+- MySQL
+- Bootstrap 5
 
-## ✨ Funcionalidades
+## O que o projeto entrega hoje
 
-- **🔍 Pesquisa de Digimons**: Busca por nome, nível e tipo.
-- **🔑 Autenticação de Usuários**: Registro e login para acessar funcionalidades exclusivas.
-- **⭐ Favoritar Digimons**: Usuários logados podem favoritar Digimons e acessá-los posteriormente.
-- **🎯 Filtros Avançados**: Filtragem refinada com base em múltiplos critérios.
-- **📄 Paginação**: Exibição paginada para facilitar a navegação.
-- **⚡ Cache Local**: Redução de chamadas à API, melhorando a performance.
-- **🔒 Proteção de Rotas**: Apenas usuários autenticados acessam determinadas funcionalidades.
+- Busca de Digimons por nome, nível e tipo (combinando filtros).
+- Paginação dos resultados retornados pela API.
+- Login e cadastro de usuário com hash de senha.
+- Sessão com regeneração de ID após login.
+- Rotas restritas para área autenticada.
+- Favoritar e remover favoritos de forma completa.
+- Exibição somente dos favoritos do usuário autenticado.
+- Cache local em arquivo para respostas da API com TTL configurável.
+- Configuração por ambiente via arquivo .env.
 
-## 🚀 Getting Started
+## O que não está neste projeto
 
-### 🛠️ Instalação
+- Testes automatizados.
+- Painel administrativo.
+- Framework full-stack (Laravel/Symfony).
 
-Siga os passos abaixo para configurar o projeto localmente:
+## Estrutura principal
 
-1. **Clone o repositório**:
-   ```bash
-   git clone https://github.com/AndersonC96/Digimon.git
-    ```
+```text
+Digimon/
+├── config/
+│   ├── bootstrap.php
+│   ├── config.php
+│   └── env.php
+├── database/
+│   ├── schema.sql
+│   └── seed_example.sql
+├── public/
+│   ├── dashboard.php
+│   ├── favorite_action.php
+│   ├── favoritos.php
+│   ├── index.php
+│   ├── login.php
+│   ├── logout.php
+│   ├── register.php
+│   └── style.css
+├── src/
+│   ├── Auth.php
+│   ├── DigimonApi.php
+│   ├── FavoriteService.php
+│   ├── helpers.php
+│   └── search.php
+├── storage/
+│   └── cache/
+├── templates/
+│   ├── footer.php
+│   ├── header.php
+│   └── search_results.php
+├── .env.example
+└── .gitignore
+```
 
-2. **Configuração do Banco de Dados**:
+## Como rodar localmente
 
-- Crie um banco de dados MySQL chamado `digimon`:
+1. Clone o repositório:
 
-    ```bash
-        CREATE DATABASE digimon;
-    ```
+```bash
+git clone <url-do-seu-repositorio>
+cd Digimon
+```
 
-- Importe o arquivo SQL incluído no repositório:
+1. Crie seu arquivo de ambiente a partir do exemplo:
 
-    ```bash
-        mysql -u root -p digimon < path/to/digimon.sql
-    ```
+```bash
+cp .env.example .env
+```
 
-3. **Configuração do Servidor**:
+No Windows (PowerShell):
 
-- Coloque o projeto no diretório raiz do seu servidor web (por exemplo, `htdocs` no XAMPP).
-- Edite o arquivo `config/config`.php com suas credenciais de banco de dados:
+```powershell
+Copy-Item .env.example .env
+```
 
-    ```bash
-        $host = 'localhost';
-        $dbname = 'digimon';
-        $username = 'root';
-        $password = '';
-    ```
+1. Configure os valores do .env conforme seu ambiente local (host, porta, usuário e senha do MySQL).
 
-4. **Configuração de Cache**:
+1. Crie o banco e tabelas:
 
-    ```bash
-        mkdir cache
-        chmod 777 cache
-    ```
+```bash
+mysql -u root -p < database/schema.sql
+```
 
-5. **Acesse o projeto no navegador**:
+1. (Opcional) Inserir dados de exemplo:
 
-    ```bash
-        http://localhost/digimon/public/index.php
-    ```
+```bash
+mysql -u root -p < database/seed_example.sql
+```
 
-## 🤔 Como Usar
+1. Sirva o projeto no Apache/XAMPP e acesse:
 
-1. Pesquisa de Digimons: Utilize a barra de busca para filtrar por nome, nível ou tipo.
+```text
+http://localhost/Digimon/public/index.php
+```
 
-2. Registro e Login: Crie uma conta para acessar a funcionalidade de favoritos.
+## Configurações de ambiente
 
-3. Favoritar Digimons: Adicione Digimons à sua lista de favoritos clicando no ícone de estrela nos resultados de pesquisa.
+As configurações ficam no arquivo .env:
 
-4. Acesse Favoritos: Veja seus Digimons favoritos na página dedicada.
+- DB_HOST
+- DB_PORT
+- DB_NAME
+- DB_USER
+- DB_PASSWORD
+- DB_CHARSET
+- DIGIMON_API_URL
+- CACHE_ENABLED (1 ou 0)
+- CACHE_TTL_SECONDS
 
-## 📁 Estrutura de Diretórios
+## Segurança aplicada
 
-    ```bash
-        /digimon
-        │
-        ├── /public               # Arquivos públicos (HTML, CSS, JS)
-        │   ├── index.php         # Página inicial
-        │   ├── register.php      # Registro de usuários
-        │   ├── login.php         # Login de usuários
-        │   ├── favoritos.php     # Página de favoritos
-        │   ├── style.css         # Estilos CSS
-        │   └── /cache            # Diretório para cache da API
-        │
-        ├── /src                  # Código-fonte principal
-        │   ├── search.php        # Lógica de pesquisa
-        │
-        ├── /templates            # Templates HTML/PHP
-        │   ├── header.php        # Cabeçalho
-        │   ├── footer.php        # Rodapé
-        │
-        ├── /config               # Arquivos de configuração
-        │   └── config.php        # Configurações do banco de dados e API
-        │
-        ├── /tests                # Testes automatizados
-        ├── README.md             # Instruções do projeto
-        └── digimon_db.sql        # Script SQL para criação do banco de dados
-    ```
+- Uso de prepared statements no MySQL.
+- password_hash e password_verify para senha.
+- Regeneração de sessão no login.
+- Logout com limpeza completa de sessão/cookie.
+- Escaping de saída HTML com helper dedicado.
+- Token CSRF em formulários sensíveis (login, cadastro e favoritos).
 
-## 🛡️ Funcionalidades de Segurança
+## Observações de portfólio
 
-- Proteção de Rotas: Apenas usuários autenticados podem acessar certas áreas como a lista de favoritos.
-- Criptografia de Senhas: As senhas dos usuários são armazenadas com criptografia segura.
-
-## 📝 Melhorias Futuras
-
-- Integração de testes com PHPUnit.
-- Interface mais dinâmica com animações.
-- Suporte para endpoints adicionais na API de Digimon.
+Este projeto foi organizado para demonstrar fundamentos sólidos de aplicação PHP tradicional: separação mínima de responsabilidades, fluxo de autenticação consistente, busca externa com tratamento de falhas e persistência de favoritos com escopo por usuário.

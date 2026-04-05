@@ -2,41 +2,50 @@ body {
     background-color: #f0f4f8;
     font-family: "Roboto Mono", monospace;
     color: #333;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
 }
-header {
+
+.header-shell {
     background-color: #162447;
-    color: #e43f5a;
-    padding: 1rem;
-    text-align: center;
     border-bottom: 4px solid #e43f5a;
 }
+
 h1 {
     font-size: 2.5rem;
     margin: 0;
     font-weight: bold;
 }
+
 .btn-primary {
     background-color: #1f4068;
     border: none;
 }
+
 .btn-primary:hover {
     background-color: #e43f5a;
 }
+
 .form-group label {
     color: #162447;
     font-weight: bold;
 }
+
 .form-control {
     border: 2px solid #1f4068;
 }
-footer {
+
+.footer-shell {
     background-color: #162447;
-    color: #ffffff;
-    text-align: center;
-    padding: 1rem;
-    margin-top: 2rem;
     border-top: 4px solid #e43f5a;
 }
+
+.card-img-top {
+    object-fit: cover;
+    max-height: 220px;
+}
+
 @media (max-width: 768px) {
     h1 {
         font-size: 1.8rem;

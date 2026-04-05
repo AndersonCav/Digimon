@@ -1,0 +1,15 @@
+# Environment
+.env
+
+# Runtime/cache
+storage/cache/*.json
+
+# Editor/OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Vendor and logs (if ever added)
+vendor/
+*.log

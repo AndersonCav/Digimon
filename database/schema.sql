@@ -1,0 +1,23 @@
+CREATE DATABASE IF NOT EXISTS digimon CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+USE digimon;
+
+CREATE TABLE IF NOT EXISTS usuarios (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(80) NOT NULL,
+    email VARCHAR(190) NOT NULL UNIQUE,
+    senha VARCHAR(255) NOT NULL,
+    criado_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE IF NOT EXISTS favoritos (
+    id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+    user_id INT UNSIGNED NOT NULL,
+    digimon_name VARCHAR(120) NOT NULL,
+    digimon_image VARCHAR(255) DEFAULT NULL,
+    digimon_level VARCHAR(60) DEFAULT NULL,
+    digimon_attribute VARCHAR(60) DEFAULT NULL,
+    digimon_href VARCHAR(255) DEFAULT NULL,
+    data_adicionado TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT fk_favoritos_usuarios FOREIGN KEY (user_id) REFERENCES usuarios(id) ON DELETE CASCADE,
+    CONSTRAINT uq_favoritos_usuario_digimon UNIQUE (user_id, digimon_name)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
