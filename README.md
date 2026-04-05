@@ -80,7 +80,7 @@ Digimon/
 - Clone o repositório.
 
 ```bash
-git clone [<url-do-repositorio>](https://github.com/AndersonCav/Digimon)
+git clone https://github.com/AndersonCav/Digimon
 cd Digimon
 ```
 
